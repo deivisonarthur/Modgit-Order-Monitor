@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (C) 2012 Slawomir Iwanczuk <slawomir@iwanczuk.co>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+-->
+<config>
+    <modules>
+        <Mage_OrderMonitor>
+            <version>1.3.0</version>
+        </Mage_OrderMonitor>
+    </modules>
+    <crontab>
+        <jobs>
+            <ordermonitor>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ordermonitor/cron::run</model>
+                </run>
+            </ordermonitor>
+        </jobs>
+    </crontab>
+    <global>
+        <models>
+            <ordermonitor>
+                <class>Mage_OrderMonitor_Model</class>
+            </ordermonitor>
+        </models>
+        <helpers>
+            <ordermonitor>
+                <class>Mage_OrderMonitor_Helper</class>
+            </ordermonitor>
+        </helpers>
+        <sales>
+            <order>
+                <states>
+                    <pending_payment>
+                        <visible_on_front>1</visible_on_front>
+                    </pending_payment>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_OrderMonitor>
+                    <files>
+                        <default>Mage_OrderMonitor.csv</default>
+                    </files>
+                </Mage_OrderMonitor>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <ordermonitor translate="title" module="ordermonitor">
+                                            <title>Order Monitor</title>
+                                            <sort_order>0</sort_order>
+                                        </ordermonitor>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <frontend>
+        <routers>
+            <sales>
+                <args>
+                    <modules>
+                        <Mage_OrderMonitor before="Mage_Sales">Mage_OrderMonitor</Mage_OrderMonitor>
+                    </modules>
+                </args>
+            </sales>
+        </routers>
+        <translate>
+            <modules>
+                <Mage_OrderMonitor>
+                    <files>
+                        <default>Mage_OrderMonitor.csv</default>
+                    </files>
+                </Mage_OrderMonitor>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <ordermonitor module="Mage_OrderMonitor">
+                    <file>ordermonitor.xml</file>
+                </ordermonitor>
+            </updates>
+        </layout>
+    </frontend>
+    <default>
+        <ordermonitor>
+            <customer>
+                <cancel_new>0</cancel_new>
+                <cancel_pending>0</cancel_pending>
+                <cancel_status></cancel_status>
+            </customer>
+            <cron>
+                <cancel_pending>0</cancel_pending>
+                <cancel_after>120</cancel_after>
+                <cancel_status></cancel_status>
+            </cron>
+        </ordermonitor>
+    </default>
+</config>
